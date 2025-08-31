@@ -32,4 +32,4 @@ mod thread_pool;
 use flogging::*;
 pub use thread_pool::*;
 
-pub(crate) const DEBUG_LEVEL: Level = Level::ALL;
+pub(crate) const DEBUG_LEVEL: Level = Level::OFF;

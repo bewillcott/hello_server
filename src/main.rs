@@ -38,39 +38,52 @@ use hello::*;
 
 const_logger!({
     Logger::builder(module_path!())
-        .add_console_handler()
-        .set_level(Level::ALL)
+        .add_pconsole_handler()
+        .set_level(Level::INFO)
         .build()
 });
 
 #[logger]
 fn main() {
-    entering!();
-
+    let mut shutdown = false;
     let pool = ThreadPool::new(4);
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-    finer!("listener: {listener:?}");
+    info!(
+        "Hello Web Server Started ({})",
+        listener.local_addr().unwrap()
+    );
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
         finest!("stream: {stream:?}");
 
-        pool.execute(|| handle_connection(stream));
+        let buf_reader = BufReader::new(&stream);
+        finest!("buf_reader: {buf_reader:?}");
+
+        let request_line = buf_reader.lines().next().unwrap().unwrap();
+        info! {"request_line: {request_line}"};
+
+        if "GET /shutdown HTTP/1.1" == &request_line[..] {
+            shutdown = true;
+        }
+
+        pool.execute(|| handle_connection(request_line, stream));
+
+        if shutdown {
+            break;
+        }
     }
+
+    info!("Shutting down.");
 }
 
 #[logger]
-fn handle_connection(mut stream: TcpStream) {
-    entering!("stream: {stream:?}");
-
-    let buf_reader = BufReader::new(&stream);
-    finest!("buf_reader: {buf_reader:?}");
-
-    let request_line = buf_reader.lines().next().unwrap().unwrap();
-    finest! {"request_line: {request_line}"};
+fn handle_connection(request_line: String, mut stream: TcpStream) {
+    entering!("request_line: {request_line}\nstream: {stream:?}");
 
     let (status_line, filename) = match &request_line[..] {
         "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
+        "GET /shutdown HTTP/1.1" => ("HTTP/1.1 200 OK", "shutdown.html"),
         "GET /sleep HTTP/1.1" => {
             thread::sleep(Duration::from_secs(10));
             ("HTTP/1.1 200 OK", "hello-sleepy.html")

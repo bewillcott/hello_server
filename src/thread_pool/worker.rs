@@ -42,8 +42,8 @@ const_logger!({
 
 #[derive(Debug)]
 pub(super) struct Worker {
-    id: usize,
-    thread: thread::JoinHandle<Arc<Mutex<Receiver<Job>>>>,
+    pub(super) id: usize,
+    pub(super) thread: Option<thread::JoinHandle<()>>,
 }
 
 impl Worker {
@@ -64,12 +64,21 @@ impl Worker {
                 .build();
 
             loop {
-                let job = receiver.lock().unwrap().recv().unwrap();
-                log.finest(&format!("Worker {id} got a job; executing."));
-                job();
+                let message = receiver.lock().unwrap().recv();
+
+                match message {
+                    Ok(job) => {
+                        log.finest(&format!("Worker {id} got a job; executing."));
+                        job();
+                    }
+                    Err(_) => {
+                        log.finest(&format!("Worker {id} disconnected; shutting down."));
+                        break;
+                    }
+                };
             }
         }) {
-            Ok(thread) => Ok(Worker { id, thread }),
+            Ok(thread) => Ok(Worker { id, thread:Some(thread) }),
             Err(e) => Err(e),
         };
 

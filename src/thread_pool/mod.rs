@@ -51,7 +51,7 @@ const_logger!({
 #[derive(Debug)]
 pub struct ThreadPool {
     workers: Vec<Worker>,
-    sender: Sender<Job>,
+    sender: Option<Sender<Job>>,
 }
 
 impl ThreadPool {
@@ -114,7 +114,7 @@ impl ThreadPool {
         entering!();
 
         let job = Box::new(f);
-        self.sender.send(job).unwrap();
+        self.sender.as_ref().unwrap().send(job).unwrap();
 
         exiting!();
     }
@@ -129,6 +129,22 @@ impl fmt::Display for ThreadPool {
         }
 
         buf.fmt(f)
+    }
+}
+
+impl Drop for ThreadPool {
+    #[logger]
+    fn drop(&mut self) {
+        entering!();
+
+        drop(self.sender.take());
+
+        for worker in &mut self.workers{
+            finest!("Shutting down worker {}", worker.id);
+
+            if let Some(thread) = worker.thread.take() {
+                thread.join().unwrap();
+            }        }
     }
 }
 
@@ -154,7 +170,7 @@ fn setup_thread_pool(
         }
     }
 
-    let rtn = ThreadPool { workers, sender };
+    let rtn = ThreadPool { workers, sender: Some(sender) };
 
     exiting!("rtn: {rtn}");
 
