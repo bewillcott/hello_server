@@ -23,9 +23,9 @@ what is going on with the server.
 1. Clone this repository, or download the zip file and unpack it.
 2. cd into the root directory of the project, and run it: `cargo run`.
 3. Open your web browser to a new tab for each of:
-   i. `http://127.0.0.1:7878/`
-   ii. `http://127.0.0.1:7878/test`
-   iii. `http://127.0.0.1:7878/sleep`
+   i. `http://127.0.0.1:7878/`\
+   ii. `http://127.0.0.1:7878/test`\
+   iii. `http://127.0.0.1:7878/sleep`\
    iv. `http://127.0.0.1:7878/shutdown`
 
 You should see something like:
