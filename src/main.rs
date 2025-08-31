@@ -1,7 +1,7 @@
 //
 // File Name:    main.rs
 // Directory:    src
-// Project Name: hello
+// Project Name: hello_server
 //
 // Copyright (C) 2025 Bradley Willcott
 //
@@ -34,7 +34,7 @@ use std::{
 };
 
 use flogging::*;
-use hello::*;
+use hello_server::*;
 
 const_logger!({
     Logger::builder(module_path!())
@@ -83,6 +83,7 @@ fn handle_connection(request_line: String, mut stream: TcpStream) {
 
     let (status_line, filename) = match &request_line[..] {
         "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
+        "GET /readme HTTP/1.1" => ("HTTP/1.1 200 OK", "README.html"),
         "GET /shutdown HTTP/1.1" => ("HTTP/1.1 200 OK", "shutdown.html"),
         "GET /sleep HTTP/1.1" => {
             thread::sleep(Duration::from_secs(10));

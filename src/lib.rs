@@ -1,7 +1,7 @@
 //
 // File Name:    lib.rs
 // Directory:    src
-// Project Name: hello
+// Project Name: hello_server
 //
 // Copyright (C) 2025 Bradley Willcott
 //

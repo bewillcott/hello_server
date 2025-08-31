@@ -1,7 +1,7 @@
 //
 // File Name:    worker.rs
 // Directory:    src/thread_pool
-// Project Name: hello
+// Project Name: hello_server
 //
 // Copyright (C) 2025 Bradley Willcott
 //
