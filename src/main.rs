@@ -1,3 +1,30 @@
+//
+// File Name:    main.rs
+// Directory:    src
+// Project Name: hello
+//
+// Copyright (C) 2025 Bradley Willcott
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// This library (crate) is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This library (crate) is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this library (crate).  If not, see <https://www.gnu.org/licenses/>.
+//
+
+//!
+//! # Hello main
+//!
+
 use std::{
     fs,
     io::{BufReader, prelude::*},
@@ -7,6 +34,7 @@ use std::{
 };
 
 use flogging::*;
+use hello::*;
 
 const_logger!({
     Logger::builder(module_path!())
@@ -19,6 +47,7 @@ const_logger!({
 fn main() {
     entering!();
 
+    let pool = ThreadPool::new(4);
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
     finer!("listener: {listener:?}");
 
@@ -26,7 +55,7 @@ fn main() {
         let stream = stream.unwrap();
         finest!("stream: {stream:?}");
 
-        handle_connection(stream);
+        pool.execute(|| handle_connection(stream));
     }
 }
 
@@ -43,8 +72,8 @@ fn handle_connection(mut stream: TcpStream) {
     let (status_line, filename) = match &request_line[..] {
         "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
         "GET /sleep HTTP/1.1" => {
-            thread::sleep(Duration::from_secs(5));
-            ("HTTP/1.1 200 OK", "hello.html")
+            thread::sleep(Duration::from_secs(10));
+            ("HTTP/1.1 200 OK", "hello-sleepy.html")
         }
         _ => ("HTTP/1.1 404 NOT FOUND", "404.html"),
     };

@@ -1,0 +1,21 @@
+{
+    "powerHeader.autoInsert.enable": true,
+    "powerHeader.commentMode": "raw",
+    "powerHeader.newLines": 1,
+    "powerHeader.template": "file://$WORKSPACE_FOLDER/licenseheader.txt",
+    "powerHeader.update.content": [],
+    "powerHeader.variables": [],
+    "cSpell.words": [
+        "chrono",
+        "confile",
+        "crono",
+        "econsole",
+        "killmd",
+        "loggerbuilder",
+        "pconsole",
+        "println",
+        "unixtimestamp"
+    ],
+    "rust-analyzer.checkOnSave": false,
+    "markdown.extension.preview.autoShowPreviewToSide": false,
+}
