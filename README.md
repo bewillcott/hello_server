@@ -3,11 +3,11 @@
 # Hello Server
 
 This project is heavily derived from the "Hello" web server developed in
-[Chapter 21][21]: "Final Project: Building a Multithreaded Web Server", in
+<a href="https://doc.rust-lang.org/book/ch21-00-final-project-a-web-server.html" title="Open book in new tab" target="_blank">Chapter 21</a> : "Final Project: Building a Multithreaded Web Server", in
 **The Rust Programming Language** book.
 
 I am making it available here as a further example of the possible uses for my other project:
-<a href="https://github.com/bewillcott/flogging" target="_blank">FLogging</a> (<a href="https://crates.io/crates/flogging" target="_blank">crate</a>) (<a href="https://docs.rs/flogging/latest/flogging" target="_blank">api</a>) (<a href="https://bewillcott.github.io/flogging" target="_blank">guide</a>).
+<a href="https://github.com/bewillcott/flogging" title="Open Github in new tab" target="_blank">FLogging</a> (<a href="https://crates.io/crates/flogging" title="Open 'crates.io' in new tab" target="_blank">crate</a>) (<a href="https://docs.rs/flogging/latest/flogging" title="Open API in new tab" target="_blank">api</a>) (<a href="https://bewillcott.github.io/flogging" title="Open Guide in new tab" target="_blank">guide</a>).
 
 This project uses both the **macros** and the **methods** of FLogging.
 
@@ -23,10 +23,10 @@ what is going on with the server.
 1. Clone this repository, or download the zip file and unpack it.
 2. cd into the root directory of the project, and run it: `cargo run`.
 3. Open your web browser to a new tab for each of:\
-   i. `http://127.0.0.1:7878/`\
-   ii. `http://127.0.0.1:7878/test`\
-   iii. `http://127.0.0.1:7878/sleep`\
-   iv. `http://127.0.0.1:7878/shutdown`
+   i. <a href="http://127.0.0.1:7878/" title="Open page in new tab" target="_blank">`http://127.0.0.1:7878/`</a>\
+   ii. <a href="http://127.0.0.1:7878/test" title="Open page in new tab" target="_blank">`http://127.0.0.1:7878/test`</a>\
+   iii. <a href="http://127.0.0.1:7878/sleep" title="Open page in new tab" target="_blank">`http://127.0.0.1:7878/sleep`</a>\
+   iV. <a href="http://127.0.0.1:7878/shutdown" title="Open page in new tab" target="_blank">`http://127.0.0.1:7878/shutdown`</a>
 
 You should see something like:
 
@@ -327,5 +327,3 @@ I hope this example was of some use to you.
 
 Anyway, have fun, mix and match my FLogging stuff as you need, and have a great
 day.
-
-[21]: https://doc.rust-lang.org/book/ch21-00-final-project-a-web-server.html
