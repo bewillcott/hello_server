@@ -43,6 +43,8 @@ const_logger!({
         .build()
 });
 
+const WEBSITE:&str = "www";
+
 #[logger]
 fn main() {
     let mut shutdown = false;
@@ -92,7 +94,7 @@ fn handle_connection(request_line: String, mut stream: TcpStream) {
         _ => ("HTTP/1.1 404 NOT FOUND", "404.html"),
     };
 
-    let contents = fs::read_to_string(filename).unwrap();
+    let contents = fs::read_to_string(format!("{WEBSITE}/{filename}")).unwrap();
     let length = contents.len();
 
     let response = format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");

@@ -314,7 +314,7 @@ Shutting down.
 As a final proof of concept, let's view a larger html file.
 
 1. Restart the server: `cargo run`
-2. Open a new tab to: `http://127.0.0.1:7878/readme`
+2. Open a new tab to: <a href="http://127.0.0.1:7878/readme" title="Open page in new tab" target="_blank">`http://127.0.0.1:7878/readme`</a>
 
 You should now see the "html" representation of this file.
 
@@ -327,3 +327,9 @@ I hope this example was of some use to you.
 
 Anyway, have fun, mix and match my FLogging stuff as you need, and have a great
 day.
+
+Regards,
+[Bradley Willcott][bw]\
+<mailto:bw.opensource@yahoo.com>
+
+[bw]: https://github.com/bewillcott
